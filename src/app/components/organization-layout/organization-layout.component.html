@@ -1,0 +1,37 @@
+<div class="row ps-2 pe-2">
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerLink="/organization-projects">OrganizationWorkspace</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        @if(loggedInUser!=null){
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink="/organization-projects" routerLinkActive="active">Projects</a>
+          </li>
+          @if(loggedInUser.role?.name=="admin"||loggedInUser.role?.name=="owner"){
+            <li class="nav-item">
+              <a class="nav-link" role="button" aria-current="page" routerLink="/user-managment" routerLinkActive="active">User Managment</a>
+            </li>
+          }
+        </ul>
+      }
+        <form class="d-flex" role="search">
+          @if(loggedInUser==null){
+            <button class="btn btn-success me-2" routerLink="/register" type="submit">Register</button>
+            <button class="btn btn-success" routerLink="/login" type="submit">Login</button>
+          }@else {
+            <h3 class="text-white text-center pe-2">{{loggedInUser.email}}</h3>
+            <button class="btn btn-outline-success" (click)="logout()" type="submit">Logout</button>
+          }
+        </form>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="container-fluid mt-3">
+  <router-outlet></router-outlet>
+</div>

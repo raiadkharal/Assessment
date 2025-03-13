@@ -1,0 +1,177 @@
+ <div class="container-fluid">
+    <div class="card">
+      <div class="card-header bg-dark text-light">
+        <div class="row">
+          <div class="col-12 col-md-6 pb-1">
+          Project Details
+          </div>
+          <div class="col-12 col-md-4 offset-md-2 text-right">
+            <button type="button" [routerLink]="redirectUrl" class="btn btn-outline-info form-control btn-sm">
+              Back to Projects
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="rounded p-2">
+          <div class="row">
+            <div class="col-6">
+              <form  class="form form-group" #form="ngForm">
+
+                <!-- <div class="form-floating mb-3 col-md-12 p-0">
+                  <input name="projectId" [(ngModel)]="projectObj.projectId" type="text" class="form-control" id="floatingInput" placeholder="title" disabled>
+                  <label for="floatingInput" class="ps-4">Project Id</label>
+                </div> -->
+
+                <div class="form-floating mb-3 col-md-12 p-0">
+                  <input name="name" [(ngModel)]="projectObj.name" #name="ngModel" type="text" class="form-control" id="floatingInput" placeholder="name" required>
+                  <label for="floatingInput" class="ps-4">Project Name</label>
+                  <div *ngIf="name.invalid && name.touched" class="text-danger">
+                    <small *ngIf="name.errors?.['required']">Project Name is required.</small>
+                  </div>
+                </div>
+
+                <div class="form-floating mb-3 col-md-12 p-0">
+                  <input name="description" [(ngModel)]="projectObj.description" #description="ngModel" type="text" class="form-control" id="floatingInput" placeholder="description" required>
+                  <label for="floatingInput" class="ps-4">Description</label>
+                  <div *ngIf="description.invalid && description.touched" class="text-danger">
+                    <small *ngIf="description.errors?.['required']" >Description is required</small>
+                  </div>
+                </div>
+
+                <div class="form-floating mb-3 col-md-12 p-0">
+                  <input name="ownerName" [(ngModel)]="projectObj.ownerName" type="text" class="form-control" id="floatingInput" placeholder="description" disabled>
+                  <label for="floatingInput" class="ps-4">Owner Name</label>
+                </div>
+
+                @if(organizationList.length>0){
+                  <div class="row mb-2 p-1 mx-0">
+                    <label for="dropdown" class="p-0">Organization</label>
+                    <select for name="organization" class="form-select py-3" id="dropdown" [(ngModel)]="selectedOrganizationId" #company="ngModel" placeholder="title">
+                      <option [value]="null" disabled selected>--Select Organization--</option>
+                      @for (item of organizationList; track item.organizationId) {
+                        <option [selected]="item.organizationId==selectedOrganizationId" [value]="item.organizationId">{{item.name}}</option>
+                      }
+                    </select>
+                    <div *ngIf="company.invalid && company.touched" class="text-danger">
+                      <small *ngIf="company.errors?.['required']" >Please select a company</small>
+                    </div>
+                  </div>
+                }
+
+
+              </form>
+              <div class="row text-center">
+                @if(hasUpdatePermission()||hasOwnerRole()){
+                  <div class="col-6">
+                    <button type="button" class="btn btn-primary form-control my-1 py-2" (click)="updateProduct()">Update</button>
+                  </div>
+                }@else{
+                  <div class="col-6">
+                    <button type="button" class="btn btn-primary form-control my-1 py-2" disabled (click)="actionNotAllowed()">Update</button>
+                  </div>
+                }
+               @if (hasDeletePermission()||hasOwnerRole()) {
+                <div class="col-6">
+                  <button type="button" class="btn btn-danger form-control my-1 py-2" (click)="deleteProject()">Delete</button>
+                </div>
+               }@else {
+                <div class="col-6">
+                  <button type="button" class="btn btn-danger form-control my-1 py-2" disabled (click)="actionNotAllowed()">Delete</button>
+                </div>
+               }
+               @if(hasOwnerRole()){
+                <div class="col-12">
+                  <button type="button" class="btn btn-success form-control my-1 py-2" (click)="inviteUser()">Invite User</button>
+                </div>
+               }@else {
+                <div class="col-12">
+                  <button type="button" class="btn btn-success form-control my-1 py-2" disabled (click)="inviteUser()">Invite User</button>
+                </div>
+               }
+              </div>
+
+            </div>
+
+            <!-- Project Collaborators section -->
+              <div class="col-6 shadow">
+                <div class="card-header bg-dark text-light mt-0">
+                  <div class="row text-center text-white">
+                  <h2>Project Collaborators</h2>
+                </div>
+                </div>
+                <div class="card-body">
+                  <div class="container table-responsive">
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>Sr No.</th>
+                          <th>Name</th>
+                          <th>Role</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (item of collaboratorsList; track item.id) {
+                        <tr>
+                          <td>{{collaboratorsList.indexOf(item)+1}}</td>
+                          <td>{{item.user?.name}}</td>
+                          <td>{{item.role?.name}}</td>
+                          <td>
+                            @if(hasOwnerRole()){
+                              <div class="row">
+                                <a class="btn btn-danger mb-2 col-10 ms-2" (click)="removeCollaborator(item.id)"> <i class="fa-solid fa-trash"></i> Remove</a>
+                              </div>
+                            }@else {
+                              <div class="row">
+                                <a class="btn btn-danger mb-2 col-10 ms-2 disabled" (click)="removeCollaborator(item.id)"> <i class="fa-solid fa-trash"></i> Remove</a>
+                              </div>
+                            }
+
+                          </td>
+                          <!-- <td>
+                            <div class="row">
+                              <a class="btn btn-primary mb-2 col-5 ms-2" [routerLink]="['/create-category',{id:item.projectId}]"> <i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                              <a class="btn btn-danger mb-2 col-5 ms-2" > <i class="fa-solid fa-trash"></i> Delete</a>
+                            </div>
+                          </td> -->
+                        </tr>
+                      }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function backToOrders() {
+    alert("Navigating back to orders...");
+  }
+
+  function payNow() {
+    alert("Payment initiated.");
+  }
+
+  function startProcessing() {
+    alert("Order processing started.");
+  }
+
+  function shipOrder() {
+    alert("Order shipped.");
+  }
+
+  function cancelOrder() {
+    alert("Order canceled.");
+  }
+
+  document.getElementById("orderForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    alert("Order details updated.");
+  });
+</script>

@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="card shadow border-0">
+    <div class="card-header bg-primary bg-gradient mt-0 py-3">
+      <div class="row text-center text-white">
+      <h2>{{organizationName|titlecase}} Members</h2>
+    </div>
+    </div>
+    <div class="card-body">
+      <div class="container table-responsive">
+        <div class="row">
+          <div class="col-12 text-end">
+            <a class="btn btn-success mb-3" routerLink="/create-project"> <i class="fa-solid fa-plus"></i> Invite New User</a>
+          </div>
+        </div>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Sr No.</th>
+              <th>Name</th>
+              <th>Phone Number</th>
+              <th>Role</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of membersList; track item.applicationUserId) {
+            <tr>
+              <td>{{membersList.indexOf(item)+1}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.phoneNumber}}</td>
+              <td>{{item.role?.name}}</td>
+              <td>
+                <div class="row">
+                  <a class="btn btn-danger mb-2 col-5 ms-2"  (click)="removeMember(item.applicationUserId)"> <i class="fa-solid fa-trash"></i> Remove</a>
+                </div>
+              </td>
+            </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

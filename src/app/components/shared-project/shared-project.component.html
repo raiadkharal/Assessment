@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="card shadow border-0 my-4">
+    <div class="card-header bg-primary bg-gradient mt-0 py-3">
+      <div class="row text-center text-white">
+      <h2>Shared Projects</h2>
+    </div>
+    </div>
+    <div class="card-body">
+      <div class="container table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Sr No.</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of projectCollaborators; track item.projectId) {
+            <tr>
+              <td>{{projectCollaborators.indexOf(item)+1}}</td>
+              <td>{{item.project?.name}}</td>
+              <td>{{item.project?.description}}</td>
+              <td>
+                <div class="row">
+                  <a class="btn btn-primary mb-2 col-10 ms-2" [routerLink]="['/project-detail',{id:item.projectId}]"> <i class="fa-solid fa-pen-to-square"></i> Details</a>
+                </div>
+              </td>
+              <!-- <td>
+                <div class="row">
+                  <a class="btn btn-primary mb-2 col-5 ms-2" [routerLink]="['/create-category',{id:item.projectId}]"> <i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                  <a class="btn btn-danger mb-2 col-5 ms-2" > <i class="fa-solid fa-trash"></i> Delete</a>
+                </div>
+              </td> -->
+            </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

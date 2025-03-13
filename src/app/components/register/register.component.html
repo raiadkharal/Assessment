@@ -1,0 +1,83 @@
+<div class="container col-4">
+  <div class="card shadow border-0 my-4">
+    <div class="card-header bg-secondary bg-gradient py-1">
+        <div class="row text-center">
+          <h2 class="text-white py-2">Register</h2>
+        </div>
+    </div>
+    <div class="card-body m-3">
+      <div class="row ">
+        <form  class="form form-group" #form="ngForm">
+        <div class="form-floating mb-3 col-md-12 p-0">
+          <input name="name" [(ngModel)]="userObj.name" #name="ngModel" type="text" class="form-control" id="floatingInput" placeholder="title" required>
+          <label for="floatingInput" class="ps-4">Name</label>
+          <div *ngIf="name.invalid && name.touched" class="text-danger">
+            <small *ngIf="name.errors?.['required']">Name is required.</small>
+          </div>
+        </div>
+
+        <div class="form-floating mb-3 col-md-12 p-0">
+          <input name="email" [(ngModel)]="userObj.email" #email="ngModel" type="text" class="form-control" id="floatingInput" placeholder="title" required email>
+          <label for="floatingInput" class="ps-4">Email</label>
+          <div *ngIf="email.invalid && email.touched" class="text-danger">
+            <small *ngIf="email.errors?.['required']">Email is required.</small>
+            <small *ngIf="email.errors?.['email']">Invalid email format.</small>
+          </div>
+        </div>
+
+        <div class="form-floating mb-3 col-md-12 p-0">
+          <input name="password" [(ngModel)]="userObj.Password" #password="ngModel" type="password" class="form-control" id="floatingInput" placeholder="title" required>
+          <label for="floatingInput" class="ps-4">Password</label>
+          <div *ngIf="password.invalid && password.touched" class="text-danger">
+            <small *ngIf="password.errors?.['required']" >Password is required</small>
+          </div>
+        </div>
+
+        <div class="form-floating mb-3 col-md-12 p-0">
+          <input name="cpassword" [(ngModel)]="userObj.ConfirmPassword" #confirmPassword="ngModel" type="password" class="form-control" id="floatingInput" placeholder="title" required>
+          <label for="floatingInput" class="ps-4">Confirm Password</label>
+          <div *ngIf="confirmPassword.invalid && confirmPassword.touched" class="text-danger">
+            <small *ngIf="confirmPassword.errors?.['required']" >Confirm Password is required</small>
+          </div>
+        </div>
+
+
+        <div class="form-floating mb-3 col-md-12 p-0">
+          <input name="address" [(ngModel)]="userObj.address" #address="ngModel" type="text" class="form-control" id="floatingInput" placeholder="title" required>
+          <label for="floatingInput" class="ps-4">Complete Address</label>
+          <div *ngIf="address.invalid && address.touched" class="text-danger">
+            <small *ngIf="address.errors?.['required']" >Street Address is required</small>
+          </div>
+        </div>
+
+        <div class="form-floating mb-3 col-md-12 p-0">
+          <input name="phone" [(ngModel)]="userObj.phoneNumber" #phone="ngModel" type="text" class="form-control" id="floatingInput" placeholder="title" required>
+          <label for="floatingInput" class="ps-4">Phone Number</label>
+          <div *ngIf="phone.invalid && phone.touched" class="text-danger">
+            <small *ngIf="phone.errors?.['required']" >Phonen Number is required</small>
+          </div>
+        </div>
+
+        <!-- <div class="row mb-2 p-1 mx-0">
+          <label for="dropdown" class="p-0">Role Id</label>
+          <select for name="company" class="form-select py-3" id="dropdown" [(ngModel)]="selectedRole" #company="ngModel" placeholder="title">
+            <option [value]="null" disabled selected>--Select Role--</option>
+            @for (item of roleList; track item.roleId) {
+              <option [selected]="item.roleId==selectedRole" [value]="item.roleId">{{item.name}}</option>
+            }
+          </select>
+          <div *ngIf="company.invalid && company.touched" class="text-danger">
+            <small *ngIf="company.errors?.['required']" >Please select a company</small>
+          </div>
+        </div> -->
+
+      </form>
+      </div>
+      <div class="row">
+          <div class="col-12">
+            <button class="btn btn-primary form-control" [disabled]="form.invalid" (click)="registerUser()">Register</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

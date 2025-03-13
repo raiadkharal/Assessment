@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="card shadow border-0 my-4">
+    <div class="card-header bg-primary bg-gradient py-3">
+        <div class="row text-center">
+          <h2 class="text-white py-2">Create Project</h2>
+        </div>
+    </div>
+    <div class="card-body m-3">
+      <div class="row ">
+        <form  class="form form-group" #form="ngForm">
+        <div class="form-floating mb-3 col-md-12 p-0">
+          <input name="name" [(ngModel)]="projectObj.name" #name="ngModel" type="text" class="form-control" id="floatingInput" placeholder="title" required>
+          <label for="floatingInput" class="ps-4">Name</label>
+          @if (name.touched && name.errors?.['required']) {
+            <span class="text-danger">This field is required</span>
+          }
+        </div>
+
+        <div class="form-floating mb-3 col-md-12 p-0">
+          <input name="description" [(ngModel)]="projectObj.description" #description="ngModel" type="text" class="form-control" id="floatingInput" placeholder="title" required>
+          <label for="floatingInput" class="ps-4">Description</label>
+          @if (description.touched && description.errors?.['required']) {
+            <span class="text-danger">This field is required</span>
+          }
+        </div>
+
+        @if(organizationList.length>0){
+          <div class="row mb-2 p-1 mx-0">
+            <label for="dropdown" class="p-0">Organization</label>
+            <select for name="organization" class="form-select py-3" id="dropdown" [(ngModel)]="selectedOrganizationId" #company="ngModel" placeholder="title">
+              <option [value]="null" disabled selected>--Select Organization--</option>
+              @for (item of organizationList; track item.organizationId) {
+                <option [selected]="item.organizationId==selectedOrganizationId" [value]="item.organizationId">{{item.name}}</option>
+              }
+            </select>
+            <div *ngIf="company.invalid && company.touched" class="text-danger">
+              <small *ngIf="company.errors?.['required']" >Please select a company</small>
+            </div>
+          </div>
+        }
+
+      </form>
+      </div>
+      <div class="row">
+          <div class="col-6 col-md-3">
+            <button class="btn btn-primary form-control" [disabled]="form.invalid" (click)="createProject()">Create</button>
+          </div>
+      <div class="col-6 col-md-3">
+        <button class="btn btn-outline-secondary form-control" [routerLink]="redirectUrl">Back to List</button>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

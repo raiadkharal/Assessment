@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="card shadow border-0">
+    <div class="card-header bg-primary bg-gradient mt-0 py-3">
+      <div class="row text-center text-white">
+      <h2>My Organizations</h2>
+    </div>
+    </div>
+    <div class="card-body">
+      <div class="container table-responsive">
+        <div class="row">
+          <div class="col-12 text-end">
+            <a class="btn btn-primary mb-3" routerLink="/create-organization"> <i class="fa-solid fa-plus"></i> Add New Organization</a>
+          </div>
+        </div>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Sr No.</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of organizationList; track item.organizationId) {
+            <tr>
+              <td>{{organizationList.indexOf(item)+1}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.description}}</td>
+              <td>
+                <div class="row">
+                  <a class="btn btn-primary mb-2 col-10 ms-2" [routerLink]="['/organization-projects',{id:item.organizationId}]"> <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+              </td>
+              <!-- <td>
+                <div class="row">
+                  <a class="btn btn-primary mb-2 col-5 ms-2" [routerLink]="['/create-category',{id:item.projectId}]"> <i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                  <a class="btn btn-danger mb-2 col-5 ms-2" > <i class="fa-solid fa-trash"></i> Delete</a>
+                </div>
+              </td> -->
+            </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
